@@ -120,3 +120,23 @@ resource "aws_security_group_rule" "allow_all_out_on_elb" {
   protocol          = "-1"
   cidr_blocks       = ["0.0.0.0/0"]
 }
+
+resource "aws_autoscaling_schedule" "scale-out-during-business-hour" {
+  count                  = "${var.enable_autoscaling}"
+  scheduled_action_name  = "scale-out-during-business-hour"
+  min_size               = 2
+  max_size               = 10
+  desired_capacity       = 5
+  recurrence             = "0 9 * * *"
+  autoscaling_group_name = "${aws_autoscaling_group.my-asg.name}"
+}
+
+resource "aws_autoscaling_schedule" "scale-in-at-night" {
+  count                  = "${var.enable_autoscaling}"
+  scheduled_action_name  = "scale-in-at-night"
+  min_size               = 2
+  max_size               = 10
+  desired_capacity       = 2
+  recurrence             = "0 17 * * *"
+  autoscaling_group_name = "${aws_autoscaling_group.my-asg.name}"
+}
