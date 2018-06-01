@@ -27,4 +27,16 @@ variable "enable_autoscaling" {
   description = "If set to true, enable the autoscaling"
 }
 
+variable "asg_min_size" {
+  description = "Minimum size of ASG"
+}
+
+variable "asg_max_size" {
+  description = "Maximum size of ASG"
+}
+
+variable "instance_type" {
+  description = "Instance type for ASG"
+}
+
 data "aws_availability_zones" "all" {}

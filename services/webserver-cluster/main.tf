@@ -25,8 +25,8 @@ resource "aws_autoscaling_group" "my-asg" {
   load_balancers    = ["${aws_elb.my-elb.name}"]
   health_check_type = "ELB"
 
-  min_size = 2
-  max_size = 10
+  min_size = "${var.asg_min_size}"
+  max_size = "${var.asg_max_size}"
 
   tags {
     key                 = "Name"
@@ -71,7 +71,7 @@ data "template_file" "user_data" {
 resource "aws_launch_configuration" "my-launch-config" {
   image_id = "ami-0e55e373" #Ubuntu
 
-  instance_type = "t2.micro"
+  instance_type = "${var.instance_type}"
 
   security_groups = ["${aws_security_group.servers-sg.id}"]
 
